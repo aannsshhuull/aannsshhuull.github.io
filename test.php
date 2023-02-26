@@ -1,4 +1,9 @@
+<html>
+  <body>
+
 <?php
-exec("python mypythonscript.py ".$name, $output);
+exec("python3 mypythonscript.py ".$name, $output);
 ?>
 
+  </body>
+</html>
