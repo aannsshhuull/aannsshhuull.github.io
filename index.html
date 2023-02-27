@@ -1,0 +1,70 @@
+<html>
+<body>
+
+<label for="organisation name">Organisation name:</label><br>
+<input type="text" id="organisation name" name="organisation name"> <br> 
+<label for="n">n:</label><br>
+<input type="text" id="n" name="n"> <br> 
+<label for="m">m:</label><br>
+<input type="text" id="m" name="m"> <br> 
+<button onclick="myFunction()">Submit</button>
+
+  
+  <p id="demo"></p>
+
+<script>
+function myFunction() {
+  let a = document.getElementById("organisation name").value;
+  let b = document.getElementById("n").value;
+  let c = document.getElementById("m").value;
+  let d = "https://api.github.com/orgs/"+a+"/repos?page=";
+  let e = "https://api.github.com/orgs/"+a+"/repos?page=1";
+  var f=1;
+  let g = "";
+  var txt="";
+  var fork_count = new Object();
+  var myArr;
+  var thisresponse;
+  var flag=1;
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    	txt += this.responseText;
+      
+      thisresponse = JSON.parse(this.responseText);
+      if(thisresponse.length==0){
+      		flag=0;
+      }
+      else{
+      	f+=1;
+        g=d+f.toString();
+      }
+      if(flag==0){
+        myArr = JSON.parse(txt);
+        for(let i=0;i<myArr.length;i++){
+            fork_count[myArr[i].name]=myArr[i].forks_count
+        }
+        document.getElementById("demo").innerHTML = fork_count[myArr[0].name].toString();
+      }      
+      
+      if(flag==1){
+      	xhttp.open("GET", g, true);
+        xhttp.send();
+      }  
+        
+    }
+  };
+   
+  xhttp.open("GET", e, true);
+  xhttp.send(); 
+  
+  
+  
+  
+  
+}
+
+</script>
+
+</body>
+</html>
